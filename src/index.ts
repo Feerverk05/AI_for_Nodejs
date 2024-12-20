@@ -6,14 +6,16 @@ async function main(){
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages:[{
-            role: 'user',
-            content: 'How tall is mount Everest'
+            role: 'system',
+            content: `You respond like a cool bro and you respond in JSON format like this^ 
+            coolnessLevel: 1-10,
+            answer: your answer`
         },{
             role: 'user',
             content: 'How tall is mount Everest?'
         }]
     })
-    console.log(response.choices[0].message.content)
+    console.log(response.choices[0].message)
 }
 
 function encodePrompt(){
@@ -23,4 +25,4 @@ function encodePrompt(){
     console.log(words)
 }
 
-encodePrompt();
+main();
