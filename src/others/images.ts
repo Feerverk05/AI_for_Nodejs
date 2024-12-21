@@ -1,4 +1,5 @@
 import { OpenAI } from 'openai'
+import { writeFileSync } from 'fs';
 
 const openai = new OpenAI()
 
@@ -14,4 +15,20 @@ async function generateFreeImage() {
     console.log(response)
 }
 
-generateFreeImage;
+async function generateFreeLocalImage() {
+    const response = await openai.images.generate({
+        prompt: 'A photo of a cat on a mat',
+        model: 'dall-e-2',
+        style: 'vivid',
+        size: '256x256',
+        quality: 'standard',
+        n: 1,
+        response_format: 'b64_json'
+    });
+    const rawImage = response.data[0].b64_json;
+    if(rawImage){
+        writeFileSync('catMat.png', Buffer.from(rawImage, 'base64'))
+    }
+}
+
+generateFreeLocalImage();
