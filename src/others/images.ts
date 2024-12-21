@@ -1,5 +1,5 @@
 import { OpenAI } from 'openai'
-import { writeFileSync } from 'fs';
+import { createReadStream, writeFileSync } from 'fs';
 
 const openai = new OpenAI()
 
@@ -45,5 +45,18 @@ async function generateAdvancedImage() {
     }
 }
 
+async function generateImageVariation() {
+    const response = await openai.images.createVariation({
+        image: createReadStream('city.png'),
+        model: 'dall-e-2',
+        response_format: 'b64_json',
+        n: 1
+    })
+    const rawImage = response.data[0].b64_json;
+    if(rawImage){
+        writeFileSync('cityVariation.png', Buffer.from(rawImage, 'base64'))
+    }
+}
 
-generateAdvancedImage();
+
+generateImageVariation();
