@@ -10,4 +10,4 @@ async function generateEmbeddings(input: string| string[]) {
     console.log(response.data[0].embedding)
     return response;
 }
-generateEmbeddings('Cat')
+generateEmbeddings(['Cat is on the roof', 'Dog is on the car'])
