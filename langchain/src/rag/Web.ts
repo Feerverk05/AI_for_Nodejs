@@ -11,23 +11,22 @@ const model = new ChatOpenAI({
     temperature: 0.7,
 });
 
-const myData = [
-    "My name Kateryna",
-    "My name Yuliia",
-    "My favorite food is sushi",
-    "My favorite food is pizza"
-];
 
 const question = "What are my favorite foods";
 
 async function main() {
     const loader = new CheerioWebBaseLoader('https://js.langchain.com/docs/get_started/introduction');
     const docs = await loader.load();
+
+    const splitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 200,
+        chunkOverlap: 20
+    });
+
+    const splittedDocs = await splitter.splitDocuments(docs);
+
     const vectorStore = new MemoryVectorStore(new OpenAIEmbeddings());
-    
-    await vectorStore.addDocuments(
-        myData.map(content => new Document({ pageContent: content }))
-    );
+    await vectorStore.addDocuments(splittedDocs);
 
     const retriever = vectorStore.asRetriever({ k: 2 });
 
