@@ -13,11 +13,16 @@ async function main() {
     //);
     //console.log(responsel.content)
 
-    const response2 = await model.batch([
-        'Hello',
-        'Give me 4 good books to read'
-    ]);
-    console.log(response2)
+    //const response2 = await model.batch([
+    //    'Hello',
+    //    'Give me 4 good books to read'
+    //]);
+    //console.log(response2)
+
+    const response3 = await model.stream('Give me 4 good books to read');
+    for await (const chunk of response3){
+        console.log(chunk.content)
+    }
 }
 
 main()
