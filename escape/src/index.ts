@@ -11,4 +11,12 @@ async function embed(){
     });
     console.log(output)
 }
-embed()
+
+async function translate(){
+    const result = await inference.translation({
+        model: 't5-base',
+        inputs: 'My Cool Embeddigns'
+    });
+    console.log(result)
+}
+translate()
