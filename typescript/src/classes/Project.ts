@@ -10,7 +10,7 @@ class Project {
             this.budget = 10000;
         }
     }
-
+ 
     setBudget(newBudge: number) {
         this.budget = newBudge
     }
